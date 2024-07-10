@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:just_complaint/model/user_model.dart'; 
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:just_complaint/model/menu_items.dart';
+import 'package:just_complaint/model/user_model.dart';
 import 'package:just_complaint/provider/complaint_provider.dart';
-import 'package:just_complaint/widgets/custom_drawer.dart';
 import 'package:provider/provider.dart';
 
 class ComplaintScreen extends StatefulWidget {
@@ -29,6 +30,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
         _currentUser!.id, // Replace with actual student ID
         _currentUser!.name, // Replace with actual student name
       );
+  MenuItem currentItem = MenuItems.home;
 
       setState(() {
         _isLoading = false;
@@ -36,12 +38,7 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
       });
 
       if (_category != null) {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => StudentDataScreen(),
-        //   ),
-        // );
+        // Optionally navigate to another screen or show a success message
       }
     }
   }
@@ -65,20 +62,56 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text('Submit Complaint')),
-      ),
-      drawer: CustomDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      backgroundColor: Colors.white,
+     
+        
+      
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.white, Colors.white!], // Light gradient colors
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Form(
-                key: _formKey,
-                child: Padding(
-                  padding: EdgeInsets.all(size.width * 0.05),
+              Stack(
+                children: [
+                  SizedBox(
+                    height: 100,
+                    child: Container(
+                     // color: Colors.indigo,
+                      child: Center(
+                        child: Text(
+                          'Submit Complaint',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 30,
+                    left: 10,
+                    child: IconButton(
+                      icon: Icon(Icons.arrow_back_ios),
+                      onPressed: () {
+                        ZoomDrawer.of(context)!.toggle();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

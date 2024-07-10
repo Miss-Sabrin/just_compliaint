@@ -1,43 +1,298 @@
-// import 'package:after_layout/after_layout.dart';
-// import 'package:flutter/material.dart';
-// import 'package:just_complaint/provider/user_provider.dart';
-// import 'package:just_complaint/screens/compaint_screen/complaint_screen.dart.dart';
-// import 'package:just_complaint/screens/forms/sing_in.dart';
-// import 'package:provider/provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:just_complaint/constant/constan.dart';
+import 'package:just_complaint/model/homr_model.dart';
+import 'package:just_complaint/widgets/faculties.dart';
+import 'package:just_complaint/widgets/imageslider.dart';
 
+class HomeScreen extends StatefulWidget {
+  HomeScreen({super.key});
 
-// class HomeScreen extends StatefulWidget {
-//   @override
-//   _HomeScreenState createState() => _HomeScreenState();
-// }
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
-// class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScreen> {
-//   @override
-//   void afterFirstLayout(BuildContext context) {
-//     _checkUserLoginStatus();
-//   }
+class _HomeScreenState extends State<HomeScreen> {
+  bool isListView = false;
 
-//   Future<void> _checkUserLoginStatus() async {
-//     final userProvider = Provider.of<UserProvider>(context, listen: false);
-//     await userProvider.getUser();
+  void toggleView() {
+    setState(() {
+      isListView = !isListView;
+    });
+  }
 
-//     if (userProvider.user != null) {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (context) => ComplaintScreen()),
-//       );
-//     } else {
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(builder: (context) => LoginScreen()),
-//       );
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(child: CircularProgressIndicator()),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.white, Colors.grey[200]!], // Light gradient colors
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  SizedBox(
+                    height: 250,
+                    child: Imageslider(),
+                  ),
+                  Positioned(
+                    top: 30,
+                    left: 10,
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: IconButton(
+                        icon: Icon(Icons.menu),
+                        onPressed: () {
+                          ZoomDrawer.of(context)!.toggle();
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 2,
+                      color: Colors.green,
+                    ),
+                    SizedBox(width: 8), // Space between the container and the text
+                    Text('Faculties'),
+                    Spacer(), // Pushes the following widget to the end of the row
+                    IconButton(
+                      icon: Icon(
+                        isListView ? Icons.list : Icons.grid_view,
+                        size: 25, // Custom size
+                        color: Colors.green[600], // Custom color
+                      ),
+                      onPressed: toggleView,
+                    ),
+                  ],
+                ),
+              ),
+              Faculties(isListView: isListView),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 2,
+                      color: Colors.green,
+                    ),
+                    SizedBox(width: 8), // Space between the container and the text
+                    Text(
+                      'Local and International Relations',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Spacer(), // Pushes the following widget to the end of the row
+                    TextButton(
+                      onPressed: () {
+                        // Add your onPressed code here!
+                        print('View all pressed');
+                      },
+                      child: Text(
+                        'View all',
+                        style: TextStyle(color: Colors.green),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 200, // Increase height to ensure visibility and scrollability
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  itemCount: imageList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 10, bottom: 20, top: 10),
+                      child: Container(
+                        height: 250,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: kJustColor,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.white, width: 2),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            imageList[index]['image'],
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              // Center section
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  children: [
+                    Container(
+                      height: 20,
+                      width: 2,
+                      color: Colors.green,
+                    ),
+                    SizedBox(width: 8), // Space between the container and the text
+                    Text(
+                      'Center',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    Spacer(), // Pushes the following widget to the end of the row
+                    TextButton(
+                      onPressed: () {
+                        // Add your onPressed code here!
+                        print('View all pressed');
+                      },
+                      child: Text(
+                        'View all',
+                        style: TextStyle(color: Colors.green),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 300,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: imageCenter.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 40, left: 10),
+                      child: Container(
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: kJustColor,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Stack(
+                          children: [
+                            Column(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(20),
+                                    topRight: Radius.circular(20),
+                                  ),
+                                  child: Image.asset(
+                                    imageCenter[index]['image'],
+                                    width: 200,
+                                    height: 150, // Adjust height as needed
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text(
+                                    imageCenter[index]['des'],
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Positioned(
+                              bottom: 90,
+                              right: 10,
+                              child: Container(
+                                height: 25,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                  color: Color.fromARGB(255, 54, 201, 201),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.white),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Active',
+                                    style: TextStyle(fontSize: 10, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              // FACTS & FIGURES section
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Row(
+                  children: [
+                    Icon(Icons.favorite, color: Colors.green,),
+                    SizedBox(width: 10,),
+                    Text('FACTS & FIGURES')
+                  ],
+                ),
+              ),
+              GridView.builder(
+                shrinkWrap: true,
+                primary: false,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1,
+                  mainAxisSpacing: 2,
+                  crossAxisSpacing: 1,
+                ),
+                itemCount: factsList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 70,
+                    width: 80,
+                    margin: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: kJustColor,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(factsList[index]['icon'], size: 20, color: Colors.black87,),
+                        SizedBox(height: 5,),
+                        Text(factsList[index]['name'], style: TextStyle(fontSize: 12, color: Colors.black87), textAlign: TextAlign.center,),
+                        SizedBox(height: 15,),
+                        Text(factsList[index]['rate'], style: TextStyle(fontSize: 12, color: Colors.black), textAlign: TextAlign.center,),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

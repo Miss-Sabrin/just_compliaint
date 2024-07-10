@@ -39,6 +39,14 @@ dependencies:
   provider: ^6.0.0
   after_layout: ^1.1.0
   shared_preferences: ^2.2.3
+  another_carousel_pro: ^1.0.2
+  iconly: ^1.0.1
+  iconsax_flutter: ^1.0.0
+  font_awesome_flutter: ^10.7.0
+  flutter_zoom_drawer: ^3.2.0
+
+  
+
   
 
 dev_dependencies:

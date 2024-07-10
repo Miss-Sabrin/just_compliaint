@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_complaint/constant/constan.dart';
 import 'package:just_complaint/provider/user_provider.dart';
-import 'package:just_complaint/screens/compaint_screen/complaint_screen.dart.dart';
+import 'package:just_complaint/widgets/custtom_menu.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -19,19 +19,19 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _checkLoggedIn();
+   // _checkLoggedIn();
   }
 
-  void _checkLoggedIn() async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    await userProvider.loadUserFromPrefs();
-    if (userProvider.user != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => ComplaintScreen()),
-      );
-    }
-  }
+  // void _checkLoggedIn() async {
+  //   final userProvider = Provider.of<UserProvider>(context, listen: false);
+  //   await userProvider.loadUserFromPrefs();
+  //   if (userProvider.user != null) {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => ComplaintScreen()),
+  //     );
+  //   }
+  // }
 
   void _togglePasswordVisibility() {
     setState(() {
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (userProvider.error.isEmpty) {
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => ComplaintScreen()),
+            MaterialPageRoute(builder: (context) => Custtom()),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(

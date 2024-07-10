@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:just_complaint/model/user_model.dart';
 import 'package:just_complaint/service/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:just_complaint/model/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   User? _user;
