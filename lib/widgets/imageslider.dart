@@ -25,21 +25,29 @@ class Imageslider extends StatelessWidget {
   }
 
   Widget _buildImageWithShadow(String imagePath) {
-    return Container(
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.30),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, 5),
+    return Stack(
+      children: [
+        Image.asset(
+          imagePath,
+          fit: BoxFit.cover,
+          width: double.infinity,
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            height: 100, // Adjust the height as needed
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.black.withOpacity(0.5), Colors.transparent],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
           ),
-        ],
-      ),
-      child: Image.asset(
-        imagePath,
-        fit: BoxFit.cover,
-      ),
+        ),
+      ],
     );
   }
 }

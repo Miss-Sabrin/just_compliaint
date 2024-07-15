@@ -4,6 +4,7 @@ import 'package:just_complaint/constant/constan.dart';
 import 'package:just_complaint/model/homr_model.dart';
 import 'package:just_complaint/widgets/faculties.dart';
 import 'package:just_complaint/widgets/imageslider.dart';
+import 'package:just_complaint/widgets/relation_ship_of_university.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({super.key});
@@ -14,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isListView = false;
+  bool isDrawerOpen = false;
 
   void toggleView() {
     setState(() {
@@ -27,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white, Colors.grey[200]!], // Light gradient colors
+            colors: [Colors.white, Colors.grey[200]!],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
@@ -79,14 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 2,
                       color: Colors.green,
                     ),
-                    SizedBox(width: 8), // Space between the container and the text
+                    SizedBox(width: 8),
                     Text('Faculties'),
-                    Spacer(), // Pushes the following widget to the end of the row
+                    Spacer(),
                     IconButton(
                       icon: Icon(
                         isListView ? Icons.list : Icons.grid_view,
-                        size: 25, // Custom size
-                        color: Colors.green[600], // Custom color
+                        size: 25,
+                        color: Colors.green[600],
                       ),
                       onPressed: toggleView,
                     ),
@@ -103,15 +105,15 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 2,
                       color: Colors.green,
                     ),
-                    SizedBox(width: 8), // Space between the container and the text
+                    SizedBox(width: 8),
                     Text(
                       'Local and International Relations',
                       style: TextStyle(fontSize: 15),
                     ),
-                    Spacer(), // Pushes the following widget to the end of the row
+                    Spacer(),
                     TextButton(
                       onPressed: () {
-                        // Add your onPressed code here!
+                        Navigator.push(context,MaterialPageRoute(builder: (context)=>FullImageListScreen(imageList: imageList)));
                         print('View all pressed');
                       },
                       child: Text(
@@ -123,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 200, // Increase height to ensure visibility and scrollability
+                height: 200,
                 child: ListView.builder(
                   scrollDirection: Axis.horizontal,
                   shrinkWrap: true,
@@ -151,7 +153,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              // Center section
+
+              //end 
               Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Row(
@@ -161,15 +164,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       width: 2,
                       color: Colors.green,
                     ),
-                    SizedBox(width: 8), // Space between the container and the text
+                    SizedBox(width: 8),
                     Text(
                       'Center',
                       style: TextStyle(fontSize: 15),
                     ),
-                    Spacer(), // Pushes the following widget to the end of the row
+                    Spacer(),
                     TextButton(
                       onPressed: () {
-                        // Add your onPressed code here!
                         print('View all pressed');
                       },
                       child: Text(
@@ -206,7 +208,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Image.asset(
                                     imageCenter[index]['image'],
                                     width: 200,
-                                    height: 150, // Adjust height as needed
+                                    height: 150,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -246,7 +248,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
               ),
-              // FACTS & FIGURES section
               Padding(
                 padding: const EdgeInsets.only(left: 10),
                 child: Row(
