@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_complaint/constant/constan.dart';
+import 'package:just_complaint/provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class FullImageListScreen extends StatelessWidget {
   final List<Map<String, dynamic>> imageList;
@@ -8,9 +10,23 @@ class FullImageListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
+
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Just Relations')),
+        title: Center(
+          child: Text(
+            'Just Relations',
+            style: TextStyle(
+              color: isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
+        ),
+        backgroundColor: isDarkMode ? kNavyBlueColor : Colors.white,
+        iconTheme: IconThemeData(
+          color: isDarkMode ? Colors.white : Colors.black,
+        ),
       ),
       body: Column(
         children: [
@@ -18,8 +34,10 @@ class FullImageListScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               'Agreements & Memberships with international institutions',
-              style: TextStyle(fontSize: 15,color: Colors.black87 ),
-         
+              style: TextStyle(
+                fontSize: 15,
+                color: isDarkMode ? Colors.white70 : Colors.black87,
+              ),
             ),
           ),
           Expanded(
@@ -35,7 +53,7 @@ class FullImageListScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: kJustColor,
+                      color: isDarkMode ? kNavyBlueColor.withOpacity(0.5) : kJustColor.withOpacity(0.9),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: ClipRRect(
@@ -52,6 +70,7 @@ class FullImageListScreen extends StatelessWidget {
           ),
         ],
       ),
+      backgroundColor: isDarkMode ? kNavyBlueColor : Colors.white,
     );
   }
 }

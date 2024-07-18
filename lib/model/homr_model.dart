@@ -23,6 +23,6 @@ final List<Map<String, dynamic>> imageList = [
     {"icon": Icons.library_books, "name": "BOOKS", "rate": "15000+"},
     {"icon": Icons.build, "name": "WORKSHOPS", "rate": "100+"},
     {"icon": Icons.home_work, "name": "DEPARTMENTS", "rate": "10+"},
-    {"icon": Icons.school, "name": "FACULTIES", "rate": "20+"},
+    {"icon": Icons.school, "name": "Graduate", "rate": "20+"},
     {"icon": Icons.local_library, "name": "LIBRARIES", "rate": "5+"},
   ];

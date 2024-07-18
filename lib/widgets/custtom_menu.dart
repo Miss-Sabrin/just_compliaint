@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:just_complaint/constant/constan.dart';
 import 'package:just_complaint/model/menu_items.dart';
+import 'package:just_complaint/provider/theme_provider.dart';
 import 'package:just_complaint/screens/compaint_screen/complaint_screen.dart.dart';
 import 'package:just_complaint/screens/forms/sing_in.dart';
 import 'package:just_complaint/screens/student_info/student_info_screen.dart';
 import 'package:just_complaint/widgets/button_navigation_bar.dart';
 import 'package:just_complaint/widgets/custom_drawer.dart';
+import 'package:provider/provider.dart';
 
 class Custtom extends StatefulWidget {
   const Custtom({super.key});
@@ -20,9 +23,12 @@ class _CusttomState extends State<Custtom> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
+
     return ZoomDrawer(
       controller: _drawerController,
-      mainScreen: getScreen(), // Dynamically set the main screen
+      mainScreen: getScreen(),
       menuScreen: Builder(
         builder: (context) {
           return CustomDrawer(
@@ -39,7 +45,7 @@ class _CusttomState extends State<Custtom> {
       borderRadius: 30,
       showShadow: true,
       angle: 0.0,
-      menuBackgroundColor: Colors.indigo,
+      menuBackgroundColor: isDarkMode ? kNavyBlueColor: Colors.indigo,
     );
   }
 
@@ -50,10 +56,10 @@ class _CusttomState extends State<Custtom> {
       case MenuItems.studentInfo:
         return StudentDataScreen();
       case MenuItems.logout:
-        return LoginScreen(); // Add your logout screen here
+        return LoginScreen();
       case MenuItems.home:
       default:
-        return BottomNvbar(); // Use BottomNvbar as the default screen
+        return BottomNvbar();
     }
   }
 }

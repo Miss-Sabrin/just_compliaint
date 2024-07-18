@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:just_complaint/constant/constan.dart';
+import 'package:just_complaint/provider/theme_provider.dart';
 import 'package:just_complaint/screens/compaint_screen/complaint_screen.dart.dart';
 import 'package:just_complaint/screens/home/home.dart';
 import 'package:just_complaint/screens/profile/profile.dart';
 import 'package:just_complaint/screens/student_info/student_info_screen.dart';
+import 'package:provider/provider.dart';
 
 class BottomNvbar extends StatefulWidget {
-  final int initialIndex; // Add an initialIndex parameter
+  final int initialIndex;
 
-  BottomNvbar({Key? key, this.initialIndex = 0}) : super(key: key); // Default to 0
+  BottomNvbar({Key? key, this.initialIndex = 0}) : super(key: key);
 
   @override
   State<BottomNvbar> createState() => _BottomNvbarState();
@@ -19,25 +22,29 @@ class _BottomNvbarState extends State<BottomNvbar> {
   @override
   void initState() {
     super.initState();
-    currentIndex = widget.initialIndex; // Initialize with the passed index
+    currentIndex = widget.initialIndex;
   }
 
   final List<Widget> screens = [
     HomeScreen(),
     ComplaintScreen(),
     StudentDataScreen(),
-    ProfileScreen(toggleTheme: (){}) // Placeholder for a profile or other screen
+    ProfileScreen(toggleTheme: () {})
   ];
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
+
     return Scaffold(
+      backgroundColor: isDarkMode ? kNavyBlueColor.withOpacity(0.5) : kJustColor.withOpacity(0.9),
       body: IndexedStack(
         index: currentIndex,
         children: screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xFF00BCD4),
+        backgroundColor: isDarkMode ? kNavyBlueColor.withOpacity(0.5) : kJustColor.withOpacity(0.9),
         currentIndex: currentIndex,
         items: const [
           BottomNavigationBarItem(
@@ -57,8 +64,8 @@ class _BottomNvbarState extends State<BottomNvbar> {
             label: 'Profile',
           ),
         ],
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.black54,
+        selectedItemColor: isDarkMode ? Colors.green : Colors.green,
+        unselectedItemColor: isDarkMode ? Colors.white70 : Colors.black54,
         onTap: (index) {
           setState(() {
             currentIndex = index;

@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:just_complaint/constant/constan.dart';
 import 'package:just_complaint/model/menu_items.dart';
+import 'package:just_complaint/provider/theme_provider.dart';
 import 'package:just_complaint/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -15,10 +19,19 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
     final userProvider = Provider.of<UserProvider>(context);
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    // Define max font size
+    double maxTitleFontSize = 20.0;
+    double maxSubtitleFontSize = 15.0;
+    double maxMenuFontSize = 18.0;
 
     return Scaffold(
-      backgroundColor: Colors.indigo,
+      backgroundColor: isDarkMode ?kNavyBlueColor : Colors.indigo,
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(top: 30, bottom: 70, left: 10),
@@ -30,21 +43,21 @@ class CustomDrawer extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                      SizedBox(height: screenHeight * 0.01),
                       Text(
                         'JUST COMPLAINT',
                         style: TextStyle(
-                          color: Colors.white,
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                          color: isDarkMode ? Colors.white : Colors.white,
+                          fontSize: min(screenWidth * 0.05, maxTitleFontSize), // Responsive with max size
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.005),
+                      SizedBox(height: screenHeight * 0.005),
                       Text(
-                        'Welcome to Jamhuriya Complaints',
+                        'Jamhuriya Complaints',
                         style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.width * 0.03,
-                          color: Colors.white70,
+                          fontSize: min(screenWidth * 0.03, maxSubtitleFontSize), // Responsive with max size
+                          color: isDarkMode ? Colors.white70 : Colors.white70,
                         ),
                       ),
                     ],
@@ -52,7 +65,7 @@ class CustomDrawer extends StatelessWidget {
                 ],
               ),
               Spacer(),
-              ...MenuItems.all.map((item) => buildMenuItem(context, item)).toList(),
+              ...MenuItems.all.map((item) => buildMenuItem(context, item, screenWidth, isDarkMode)).toList(),
               Spacer(flex: 2),
             ],
           ),
@@ -61,15 +74,22 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 
-  Widget buildMenuItem(BuildContext context, MenuItem item) {
+  Widget buildMenuItem(BuildContext context, MenuItem item, double screenWidth, bool isDarkMode) {
+    double maxMenuFontSize = 18.0;
     return ListTileTheme(
-      selectedColor: Colors.white,
+      selectedColor: isDarkMode ? Colors.tealAccent : Colors.white,
       child: ListTile(
-        selectedTileColor: Colors.black26,
+        selectedTileColor: isDarkMode ? Colors.white24 : Colors.black26,
         selected: currentItem == item,
         minLeadingWidth: 20,
-        leading: Icon(item.icon, color: Colors.white), // Set the icon color to white
-        title: Text(item.title, style: TextStyle(color: Colors.white)), // Set the title color to white
+        leading: Icon(item.icon, color: isDarkMode ? Colors.white : Colors.white),
+        title: Text(
+          item.title,
+          style: TextStyle(
+            color: isDarkMode ? Colors.white : Colors.white,
+            fontSize: min(screenWidth * 0.04, maxMenuFontSize), // Responsive with max size
+          ),
+        ),
         onTap: () {
           onSelectedItem(item);
         },
@@ -77,6 +97,3 @@ class CustomDrawer extends StatelessWidget {
     );
   }
 }
-
-
-//code wa mid sax eh

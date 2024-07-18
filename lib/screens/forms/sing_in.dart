@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_complaint/constant/constan.dart';
+import 'package:just_complaint/provider/theme_provider.dart';
 import 'package:just_complaint/provider/user_provider.dart';
 import 'package:just_complaint/widgets/custtom_menu.dart';
 import 'package:provider/provider.dart';
@@ -70,10 +71,12 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
 
     return Scaffold(
       appBar: AppBar(
-        title: Center(child: Text('Sign in')),
+       // title: Center(child: Text('Sign in')),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -88,11 +91,17 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: size.height * 0.03),
               Text(
                 'Welcome to Jamhuriya Complaints,',
-                style: TextStyle(fontSize: size.width * 0.05),
+                style: TextStyle(
+                  fontSize: size.width * 0.05,
+                  color: isDarkMode ? Colors.white : Colors.black,
+                ),
               ),
               Text(
                 'please Login to continue,',
-                style: TextStyle(fontSize: size.width * 0.04),
+                style: TextStyle(
+                  fontSize: size.width * 0.04,
+                  color: isDarkMode ? Colors.white70 : Colors.black87,
+                ),
               ),
               Form(
                 key: _formKey,
@@ -107,6 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           labelText: 'Email',
                           prefixIcon: Icon(Icons.email),
                         ),
+                        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your email';
@@ -130,6 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         obscureText: _obscureText,
+                        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter your password';
@@ -146,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: size.height * 0.06,
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: kNavyBlueColor,
+                                color: isDarkMode ? Colors.green : kNavyBlueColor,
                                 borderRadius: BorderRadius.circular(8),
                               ),
                               child: TextButton(

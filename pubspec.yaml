@@ -46,6 +46,7 @@ dependencies:
   flutter_zoom_drawer: ^3.2.0
   flutter_staggered_animations: ^1.1.1
   url_launcher: ^6.3.0
+  flutter_phone_direct_caller: ^2.1.1
 
   
 

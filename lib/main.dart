@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:just_complaint/constant/constan.dart';
 import 'package:just_complaint/provider/complaint_provider.dart';
 import 'package:just_complaint/provider/student_unfo.dart';
-import 'package:just_complaint/provider/theme_peovider.dart';
 import 'package:just_complaint/provider/user_provider.dart';
 import 'package:just_complaint/screens/forms/sing_in.dart';
-import 'package:just_complaint/widgets/about_devloper.dart';
+import 'package:just_complaint/themes/them_data.dart';
 import 'package:just_complaint/widgets/custtom_menu.dart';
 import 'package:provider/provider.dart';
-
+import 'package:just_complaint/provider/theme_provider.dart';
 void main() {
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(create: (_)=>ThemeProvider(),
+    child: MyApp() ,
+    )
+   
+    
+    );
 }
 
 class MyApp extends StatelessWidget {
@@ -20,22 +26,21 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ComplaintProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => StudentDataProvider()),
-        ChangeNotifierProvider<ThemeNotifier>(
-          create: (_) {
-            ThemeNotifier themeNotifier = ThemeNotifier();
-            themeNotifier.init(); // Initialize themeNotifier
-            return themeNotifier;
-          },
-        ),
+      // ChangeNotifierProvider(create: (_)=>ThemeProvider()),
       ],
-      child: Consumer<ThemeNotifier>(
-        builder: (context, themeNotifier, child) {
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Student Complaints',
-            theme: themeNotifier.lightTheme,
-            darkTheme: themeNotifier.darkTheme,
-            themeMode: themeNotifier.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark().copyWith(
+              scaffoldBackgroundColor: kNavyBlueColor, // Set the dark theme background color
+              appBarTheme: AppBarTheme(
+                backgroundColor: kNavyBlueColor, // Set the AppBar background color
+              ),
+            ),
+            themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             home: Consumer<UserProvider>(
               builder: (context, userProvider, child) {
                 return userProvider.user != null ? Custtom() : LoginScreen();

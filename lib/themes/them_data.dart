@@ -1,33 +1,18 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
 
-final ThemeData lightTheme = ThemeData(
-  brightness: Brightness.light,
-  primarySwatch: Colors.blue,
-  primaryColor: Colors.blue,
-  scaffoldBackgroundColor: Colors.white,
-  appBarTheme: AppBarTheme(
-    color: Colors.blue,
-    iconTheme: IconThemeData(color: Colors.white),
-  ),
-  textTheme: TextTheme(
-    bodyLarge: TextStyle(color: Colors.black),
-    bodyMedium: TextStyle(color: Colors.black),
-  ),
-  colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blueAccent),
-);
+// // Define the constant for Navy Blue Color
+// const kNavyBlueColor = Color.fromARGB(255, 1, 22, 32);
 
-final ThemeData darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  primarySwatch: Colors.blue,
-  primaryColor: Colors.blue,
-  scaffoldBackgroundColor: Colors.black,
-  appBarTheme: AppBarTheme(
-    color: Colors.black,
-    iconTheme: IconThemeData(color: Colors.white),
-  ),
-  textTheme: TextTheme(
-    bodyLarge: TextStyle(color: Colors.white),
-    bodyMedium: TextStyle(color: Colors.white),
-  ),
-  colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.blueAccent),
-);
+// class ThemeProvider with ChangeNotifier {
+//   bool _isDarkMode = false;
+
+//   bool get isDarkMode => _isDarkMode;
+
+//   void toggleTheme() {
+//     _isDarkMode = !_isDarkMode;
+//     notifyListeners();
+//   }
+
+//   // Use kNavyBlueColor for dark mode background
+//   Color get menuBackgroundColor => _isDarkMode ? kNavyBlueColor : Colors.indigo;
+// }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:just_complaint/provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TeamPage extends StatelessWidget {
@@ -34,17 +37,17 @@ class TeamPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-          title: Text('Call Us', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey)),
-          content: Text('Would you like to call $phoneNumber?', style: TextStyle(color: Colors.black87)),
+          title: Text('Call Us', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).textTheme.bodyLarge!.color)),
+          content: Text('Would you like to call $phoneNumber?', style: TextStyle(color: Theme.of(context).textTheme.bodyMedium!.color)),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel', style: TextStyle(color: Colors.blue)),
+              child: Text('Cancel', style: TextStyle(color: Theme.of(context).primaryColor)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Call', style: TextStyle(color: Colors.blue)),
+              child: Text('Call', style: TextStyle(color: Theme.of(context).primaryColor)),
               onPressed: () {
                 Navigator.of(context).pop();
                 _makePhoneCall(phoneNumber);
@@ -60,13 +63,15 @@ class TeamPage extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
 
     return Scaffold(
       appBar: AppBar(
         title: Center(
           child: Text(
             'About Developer',
-            style: TextStyle(color: Colors.black54, fontSize: 18),
+            style: TextStyle(color: isDarkMode ? Colors.white70 : Colors.black54, fontSize: 18),
           ),
         ),
       ),
@@ -81,7 +86,7 @@ class TeamPage extends StatelessWidget {
                 style: TextStyle(
                   fontSize: screenHeight * 0.025,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Theme.of(context).textTheme.bodyLarge!.color,
                   height: 1.8,
                 ),
               ),
@@ -90,7 +95,7 @@ class TeamPage extends StatelessWidget {
                 'At Jamhuriya, we take every complaint seriously and address each concern promptly. Our process involves a thorough review, direct communication with all involved parties, and swift resolution. We maintain transparency and keep every complainant informed. Our goal is a fair and satisfactory resolution for everyone, reinforcing our commitment to quality and trust. We handle complaints in categories including equipment, finance, and academics. Our team collaborates to provide comprehensive solutions and uphold the highest standards of quality.',
                 style: TextStyle(
                   fontSize: screenHeight * 0.02,
-                  color: Colors.black87,
+                  color: Theme.of(context).textTheme.bodyMedium!.color,
                   height: 1.5,
                 ),
               ),
@@ -99,7 +104,7 @@ class TeamPage extends StatelessWidget {
                 'We encourage you to visit our campuses and learn more about the opportunities at Jamhuriya. Our team is ready to assist with any concerns and provide the best solutions to ensure your experience at Jamhuriya is exceptional.',
                 style: TextStyle(
                   fontSize: screenHeight * 0.02,
-                  color: Colors.black87,
+                  color: Theme.of(context).textTheme.bodyMedium!.color,
                   height: 1.5,
                 ),
               ),
@@ -119,7 +124,8 @@ class TeamPage extends StatelessWidget {
                       child: IconButton(
                         icon: Icon(Icons.call, color: Colors.white),
                         onPressed: () {
-                          _showCallDialog(context);
+                          //_showCallDialog(context);
+                          FlutterPhoneDirectCaller.callNumber('+252615480786');
                         },
                       ),
                     ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:just_complaint/constant/constan.dart';
+import 'package:just_complaint/provider/theme_provider.dart';
+import 'package:provider/provider.dart';
 
 class Faculties extends StatelessWidget {
   final bool isListView;
@@ -9,6 +11,9 @@ class Faculties extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    bool isDarkMode = themeProvider.isDarkMode;
+
     final List<Map<String, dynamic>> faculties = [
       {'name': 'Equipments', 'image': 'images/equiment.png', 'description': 'Details about Equipments'},
       {'name': 'Academic', 'image': 'images/acdamic.png', 'description': 'Details about Academic'},
@@ -31,20 +36,20 @@ class Faculties extends StatelessWidget {
                     child: FadeInAnimation(
                       child: Container(
                         margin: const EdgeInsets.all(8.0),
-                        color: kJustColor.withOpacity(0.90),
+                        color: isDarkMode ? kNaBlueColor.withOpacity(0.5) : kJustColor.withOpacity(0.9),
                         child: ListTile(
                           leading: Image.asset(faculty['image']),
                           title: Text(
                             faculty['name'],
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Colors.black,
+                              color: isDarkMode ? Colors.white : Colors.black,
                             ),
                           ),
                           subtitle: Text(
                             faculty['description'],
                             style: TextStyle(
-                              color: Colors.black54,
+                              color: isDarkMode ? Colors.white70 : Colors.black54,
                             ),
                           ),
                         ),
@@ -78,7 +83,7 @@ class Faculties extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
                           decoration: BoxDecoration(
-                            color: kJustColor.withOpacity(0.90),
+                            color: isDarkMode ? kNaBlueColor.withOpacity(0.5) : kJustColor.withOpacity(0.9),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(
@@ -90,7 +95,7 @@ class Faculties extends StatelessWidget {
                                 faculty['name'],
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: isDarkMode ? Colors.white : Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
