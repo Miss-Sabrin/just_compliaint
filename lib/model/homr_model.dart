@@ -11,8 +11,10 @@ final List<Map<String, dynamic>> imageList = [
 
   final List<Map<String, dynamic>> imageCenter = [
     {"image": "images/graduation.jpg", "des": "Center for graduate \n studies (CGS)"},
-    {"image": "images/1.jpg", "des": "Center for graduate \n studies (CGS)"},
-    {"image": "images/2 (2).jpg", "des": "Center for graduate \n studies (CGS)"},
+        {"image": "images/pexels-photo-3178744.jpeg", "des": "Center of Complaint \n  universty "},
+
+    {"image": "images/1.jpg", "des": "Center for research and \n devlopemnt"},
+    {"image": "images/jic.jpg", "des": "jamhuriya Technolagy \n solution (JETCH)",},
   ];
 
   final List<Map<String, dynamic>> factsList = [

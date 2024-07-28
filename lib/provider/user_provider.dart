@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:just_complaint/model/user_model.dart';
 import 'package:just_complaint/service/user_service.dart';
@@ -12,12 +13,16 @@ class UserProvider with ChangeNotifier {
   User? get user => _user;
   String get error => _error;
 
+  UserProvider() {
+    loadUserFromPrefs();
+  }
+
   Future<void> loginUser(String email, String password) async {
     try {
       _user = await _userService.loginUser(email, password);
       _error = '';
-      notifyListeners();
       await _saveUserToPrefs();
+      notifyListeners();
     } catch (e) {
       _error = e.toString();
       notifyListeners();
@@ -27,8 +32,8 @@ class UserProvider with ChangeNotifier {
   Future<void> logoutUser() async {
     _user = null;
     _error = '';
-    notifyListeners();
     await _clearUserFromPrefs();
+    notifyListeners();
   }
 
   Future<void> _saveUserToPrefs() async {

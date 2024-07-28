@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:just_complaint/constant/constan.dart';
 import 'package:just_complaint/model/complaient_model.dart';
@@ -55,6 +56,21 @@ class ApiService {
       return User.fromJson(json.decode(userData));
     } else {
       throw Exception('No user data found');
+    }
+  }
+
+  Future<bool> deleteComplaint(String complaintName) async {
+    final url = '$baseUrl/deleteComplaint';  // Update with your actual API endpoint
+    final response = await http.delete(
+      Uri.parse(url),
+      body: json.encode({'name': complaintName}),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
     }
   }
 }

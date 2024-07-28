@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-  final String flaskBaseUrl = 'http://192.168.1.13:5000';  // Flask API URL
-  final String nodeBaseUrl = 'http://192.168.1.13:9000';  // Node.js API URL
+  final String flaskBaseUrl = 'http://192.168.1.16:5000';  // Flask API URL
+  final String nodeBaseUrl = 'http://192.168.1.16:9000';  // Node.js API URL
   // final String baseUrl = 'http://192.168.1.8:9000/api'; // Node.js API URL
-  final String  studentData= 'http://192.168.1.13:9000/api/studentData';
-  const String baseUrl = 'http://192.168.1.13:9000/api';
+  final String  studentData= 'http://192.168.1.16:9000/api/studentData';
+  const String baseUrl = 'http://192.168.1.16:9000/api';
 
 
 const kPrimarayColor=Color(0xFF102F54);

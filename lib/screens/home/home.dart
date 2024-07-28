@@ -1,8 +1,11 @@
+import 'dart:async';
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:just_complaint/constant/constan.dart';
 import 'package:just_complaint/model/homr_model.dart';
 import 'package:just_complaint/provider/theme_provider.dart';
+import 'package:just_complaint/provider/user_provider.dart';
 import 'package:just_complaint/widgets/faculties.dart';
 import 'package:just_complaint/widgets/imageslider.dart';
 import 'package:just_complaint/widgets/relation_ship_of_university.dart';
@@ -17,7 +20,7 @@ class HomeScreen extends StatefulWidget {
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with AfterLayoutMixin<HomeScreen> {
   bool isListView = false;
   bool isDrawerOpen = false;
 
@@ -25,6 +28,17 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       isListView = !isListView;
     });
+  }
+
+  @override
+  FutureOr<void> afterFirstLayout(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.loadUserFromPrefs();
+    if (userProvider.user == null) {
+      Navigator.pushReplacementNamed(context, '/login');
+    } else {
+      // Load additional data or perform other actions if the user is logged in
+    }
   }
 
   @override
@@ -138,8 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    FullImageListScreen(imageList: imageList),
+                                builder: (context) => FullImageListScreen(imageList: imageList),
                               ),
                             );
                             print('View all pressed');
@@ -211,78 +224,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: 300,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: imageCenter.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 40, left: 10),
-                          child: Container(
-                            width: 200,
-                            decoration: BoxDecoration(
-                              color: isDarkMode ? kNaBlueColor.withOpacity(0.5) : kJustColor.withOpacity(0.9),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Stack(
-                              children: [
-                                Column(
-                                  children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(20),
-                                        topRight: Radius.circular(20),
-                                      ),
-                                      child: Image.asset(
-                                        imageCenter[index]['image'],
-                                        width: 200,
-                                        height: 150,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(15.0),
-                                      child: Text(
-                                        imageCenter[index]['des'],
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          color: isDarkMode ? Colors.white : Colors.black,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Positioned(
-                                  bottom: 90,
-                                  right: 10,
-                                  child: Container(
-                                    height: 25,
-                                    width: 50,
-                                    decoration: BoxDecoration(
-                                      color: Color.fromARGB(255, 54, 201, 201),
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Colors.white),
-                                    ),
-                                    child: Center(
-                                      child: Text(
-                                        'Active',
-                                        style: TextStyle(
-                                          fontSize: 10,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
+                  TypeCenter(isDarkMode: isDarkMode),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Row(
@@ -356,6 +298,91 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                     },
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class TypeCenter extends StatelessWidget {
+  const TypeCenter({
+    super.key,
+    required this.isDarkMode,
+  });
+
+  final bool isDarkMode;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: imageCenter.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 40, left: 10),
+            child: Container(
+              width: 200,
+              decoration: BoxDecoration(
+                color: isDarkMode ? kNaBlueColor.withOpacity(0.5) : kJustColor.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                        ),
+                        child: Image.asset(
+                          imageCenter[index]['image'],
+                          width: 200,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(
+                          imageCenter[index]['des'],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    bottom: 90,
+                    right: 10,
+                    child: Container(
+                      height: 25,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 54, 201, 201),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.white),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'Active',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),

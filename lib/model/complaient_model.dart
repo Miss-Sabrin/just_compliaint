@@ -40,37 +40,37 @@
 //   }
 // }
 class Complaint {
-  final String name;
   final String description;
   final String category;
   final String status;
   final String stdId;
+  final String name;
 
   Complaint({
-    required this.name,
     required this.description,
     required this.category,
     required this.status,
     required this.stdId,
+    required this.name,
   });
 
   factory Complaint.fromJson(Map<String, dynamic> json) {
     return Complaint(
-      name: json['name'],
-      description: json['description'],
-      category: json['category'],
-      status: json['status'],
-      stdId: json['stdId'],
+      description: json['description'] ?? '',
+      category: json['category'] ?? '',
+      status: json['status'] ?? '',
+      stdId: json['stdId'] ?? '',
+      name: json['name'] ?? '',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
       'description': description,
       'category': category,
       'status': status,
       'stdId': stdId,
+      'name': name,
     };
   }
 }

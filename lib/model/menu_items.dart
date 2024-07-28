@@ -11,12 +11,14 @@ class MenuItems {
   static const home = MenuItem(Icons.home_outlined, 'Home');
   static const complaintForm = MenuItem(Icons.feedback_outlined, 'Complaint Form');
   static const studentInfo = MenuItem(Icons.school_outlined, 'Student Info');
+  static const responseScreen = MenuItem( Icons.inbox,'Inbox'); // Add this line
   static const logout = MenuItem(Icons.logout, 'Logout');
 
   static const all = <MenuItem>[
     home,
     complaintForm,
     studentInfo,
+    responseScreen,
     logout,
   ];
 }

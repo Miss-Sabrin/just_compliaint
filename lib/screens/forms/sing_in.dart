@@ -20,19 +20,19 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-   // _checkLoggedIn();
+    _checkLoggedIn();
   }
 
-  // void _checkLoggedIn() async {
-  //   final userProvider = Provider.of<UserProvider>(context, listen: false);
-  //   await userProvider.loadUserFromPrefs();
-  //   if (userProvider.user != null) {
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => ComplaintScreen()),
-  //     );
-  //   }
-  // }
+  void _checkLoggedIn() async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.loadUserFromPrefs();
+    if (userProvider.user != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Custtom()),
+      );
+    }
+  }
 
   void _togglePasswordVisibility() {
     setState(() {

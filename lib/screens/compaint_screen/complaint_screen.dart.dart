@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:just_complaint/constant/constan.dart';
-import 'package:just_complaint/model/menu_items.dart';
 import 'package:just_complaint/model/user_model.dart';
 import 'package:just_complaint/provider/complaint_provider.dart';
 import 'package:just_complaint/provider/theme_provider.dart';
@@ -32,7 +31,6 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
         _currentUser!.id, // Replace with actual student ID
         _currentUser!.name, // Replace with actual student name
       );
-      MenuItem currentItem = MenuItems.home;
 
       setState(() {
         _isLoading = false;

@@ -3,8 +3,10 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:just_complaint/constant/constan.dart';
 import 'package:just_complaint/model/menu_items.dart';
 import 'package:just_complaint/provider/theme_provider.dart';
+import 'package:just_complaint/provider/user_provider.dart';
 import 'package:just_complaint/screens/compaint_screen/complaint_screen.dart.dart';
 import 'package:just_complaint/screens/forms/sing_in.dart';
+import 'package:just_complaint/screens/inbox/inbox.dart';
 import 'package:just_complaint/screens/student_info/student_info_screen.dart';
 import 'package:just_complaint/widgets/button_navigation_bar.dart';
 import 'package:just_complaint/widgets/custom_drawer.dart';
@@ -33,10 +35,19 @@ class _CusttomState extends State<Custtom> {
         builder: (context) {
           return CustomDrawer(
             currentItem: currentItem,
-            onSelectedItem: (item) {
-              setState(() {
-                currentItem = item;
-              });
+            onSelectedItem: (item) async {
+              if (item == MenuItems.logout) {
+                // Call the logout method
+                await Provider.of<UserProvider>(context, listen: false).logoutUser();
+                // Navigate to the LoginScreen
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              } else {
+                setState(() {
+                  currentItem = item;
+                });
+              }
               _drawerController.toggle?.call();
             },
           );
@@ -44,8 +55,8 @@ class _CusttomState extends State<Custtom> {
       ),
       borderRadius: 30,
       showShadow: true,
-      angle: 0.0,
-      menuBackgroundColor: isDarkMode ? kNavyBlueColor: Colors.indigo,
+      angle: 0.0, 
+      menuBackgroundColor: isDarkMode ? kNavyBlueColor : Colors.indigo,
     );
   }
 
@@ -55,8 +66,8 @@ class _CusttomState extends State<Custtom> {
         return ComplaintScreen();
       case MenuItems.studentInfo:
         return StudentDataScreen();
-      case MenuItems.logout:
-        return LoginScreen();
+        case MenuItems.responseScreen: // Add this case
+        return ResponseScreen();
       case MenuItems.home:
       default:
         return BottomNvbar();
