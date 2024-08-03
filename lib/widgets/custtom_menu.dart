@@ -24,6 +24,14 @@ class _CusttomState extends State<Custtom> {
   final ZoomDrawerController _drawerController = ZoomDrawerController();
 
   @override
+  void initState() {
+    super.initState();
+  
+  }
+
+ 
+
+  @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     bool isDarkMode = themeProvider.isDarkMode;
@@ -47,6 +55,7 @@ class _CusttomState extends State<Custtom> {
                 setState(() {
                   currentItem = item;
                 });
+               
               }
               _drawerController.toggle?.call();
             },
@@ -55,7 +64,7 @@ class _CusttomState extends State<Custtom> {
       ),
       borderRadius: 30,
       showShadow: true,
-      angle: 0.0, 
+      angle: 0.0,
       menuBackgroundColor: isDarkMode ? kNavyBlueColor : Colors.indigo,
     );
   }
@@ -66,7 +75,7 @@ class _CusttomState extends State<Custtom> {
         return ComplaintScreen();
       case MenuItems.studentInfo:
         return StudentDataScreen();
-        case MenuItems.responseScreen: // Add this case
+      case MenuItems.responseScreen:
         return ResponseScreen();
       case MenuItems.home:
       default:

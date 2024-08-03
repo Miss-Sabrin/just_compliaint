@@ -20,7 +20,7 @@ class UserService {
 
     if (response.statusCode == 200) {
       final responseData = json.decode(response.body);
-      if (responseData['message'] == 'success') {
+      if (responseData['message'] == 'Login Successfull') {
         User user = User.fromJson(responseData['user']);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('user', json.encode(user.toJson()));
@@ -62,8 +62,24 @@ class UserService {
     return null;
   }
 
-  Future<void> logoutUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('user');
+//   //response type
+Future<int> getNewResponsesCount(String userId) async {
+    final response = await http.get(Uri.parse('$baseUrl/new-responses-count/$userId'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return data['newResponsesCount'] ?? 0;
+
+    } else {
+      throw Exception('Failed to load new responses count');
+    }
   }
-}
+
+  Future<void> resetNewResponsesCount(String userId) async {
+    final response = await http.post(Uri.parse('$baseUrl/reset-new-responses/$userId'));
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to reset new responses count');
+    }
+  }
+} 

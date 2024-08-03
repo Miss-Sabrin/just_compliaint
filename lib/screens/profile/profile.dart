@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:just_complaint/provider/theme_provider.dart';
-import 'package:just_complaint/themes/them_data.dart';
 import 'package:just_complaint/widgets/about_devloper.dart';
 import 'package:provider/provider.dart';
 
@@ -77,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 Divider(
-                  color: Colors.grey[300],
+                  color: _getDividerColor(context),
                   thickness: 1.0,
                   indent: 16.0,
                   endIndent: 16.0,
@@ -96,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 SizedBox(height: 8),
                 Divider(
-                  color: Colors.grey[300],
+                  color: _getDividerColor(context),
                   thickness: 1.0,
                   indent: 16.0,
                   endIndent: 16.0,
@@ -191,7 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
         Divider(
-          color: Colors.grey[300],
+          color: _getDividerColor(context),
           thickness: 1.0,
           indent: 16.0,
           endIndent: 16.0,
@@ -244,5 +243,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       },
     );
+  }
+
+  Color _getDividerColor(BuildContext context) {
+    return Provider.of<ThemeProvider>(context).isDarkMode ? Colors.grey[900]! : Colors.grey[300]!;
   }
 }

@@ -8,14 +8,14 @@ import 'package:just_complaint/provider/user_provider.dart';
 import 'package:just_complaint/screens/forms/sing_in.dart';
 import 'package:just_complaint/widgets/custtom_menu.dart';
 import 'package:provider/provider.dart';
+
 void main() {
   runApp(
-    ChangeNotifierProvider(create: (_)=>ThemeProvider(),
-    child: MyApp() ,
-    )
-   
-    
-    );
+    ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -27,8 +27,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => StudentDataProvider()),
         ChangeNotifierProvider(create: (_) => ResponseProvider()),
-
-      // ChangeNotifierProvider(create: (_)=>ThemeProvider()),
       ],
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
@@ -37,15 +35,21 @@ class MyApp extends StatelessWidget {
             title: 'Student Complaints',
             theme: ThemeData.light(),
             darkTheme: ThemeData.dark().copyWith(
-              scaffoldBackgroundColor: kNavyBlueColor, // Set the dark theme background color
+              scaffoldBackgroundColor: kNavyBlueColor,
               appBarTheme: AppBarTheme(
-                backgroundColor: kNavyBlueColor, // Set the AppBar background color
+                backgroundColor: kNavyBlueColor,
               ),
             ),
             themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-            home: Consumer<UserProvider>(
-              builder: (context, userProvider, child) {
-                return userProvider.user != null ? Custtom() : LoginScreen();
+            home: FutureBuilder(
+              future: Provider.of<UserProvider>(context, listen: false).loadUserFromPrefs(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  final userProvider = Provider.of<UserProvider>(context, listen: false);
+                  return userProvider.user != null ? Custtom() : LoginScreen();
+                }
               },
             ),
           );

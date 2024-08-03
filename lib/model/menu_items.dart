@@ -20,5 +20,6 @@ class MenuItems {
     studentInfo,
     responseScreen,
     logout,
+    
   ];
 }

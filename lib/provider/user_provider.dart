@@ -6,13 +6,14 @@ import 'package:just_complaint/service/user_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserProvider with ChangeNotifier {
+   int _newResponsesCount = 0;
   User? _user;
   String _error = '';
   final UserService _userService = UserService();
 
   User? get user => _user;
   String get error => _error;
-
+  int get newResponsesCount => _newResponsesCount;
   UserProvider() {
     loadUserFromPrefs();
   }
@@ -53,5 +54,17 @@ class UserProvider with ChangeNotifier {
       _user = User.fromJson(json.decode(userData));
       notifyListeners();
     }
+  }
+  // //todo response badget
+// // Add new response locally
+  void addResponse() {
+    _newResponsesCount++;
+    notifyListeners();
+  }
+
+  // Reset new response count
+  void resetNewResponsesCount() {
+    _newResponsesCount = 0;
+    notifyListeners();
   }
 }

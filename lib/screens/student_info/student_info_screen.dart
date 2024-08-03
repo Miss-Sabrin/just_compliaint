@@ -96,7 +96,8 @@ class _StudentDataScreenState extends State<StudentDataScreen> with AfterLayoutM
                     return Center(child: Text('An error occurred! ${complaintProvider.error}'));
                   }
                   return Padding(
-                    padding: const EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.only(left: 2,right: 30),
+                    
                     child: DataTable(
                       columns: [
                         DataColumn(
@@ -129,7 +130,7 @@ class _StudentDataScreenState extends State<StudentDataScreen> with AfterLayoutM
                               .map(
                                 (complaint) => DataRow(cells: [
                                   DataCell(Text(
-                                    complaint.name,
+                                    '${userProvider.user?.name ??""}',
                                     style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
                                   )),
                                   DataCell(Container(
@@ -150,6 +151,7 @@ class _StudentDataScreenState extends State<StudentDataScreen> with AfterLayoutM
                                             ),
                                             actions: [
                                               Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
                                                   TextButton(
                                                     onPressed: () {
@@ -158,15 +160,6 @@ class _StudentDataScreenState extends State<StudentDataScreen> with AfterLayoutM
                                                     child: Text(
                                                       'Close',
                                                       style: TextStyle(color: isDarkMode ? Colors.grey : Colors.blue),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      //Navigator.of(ctx).pop();
-                                                    },
-                                                    child: Text(
-                                                      'pending',
-                                                      style: TextStyle(color: isDarkMode ? Colors.red : Colors.red),
                                                     ),
                                                   ),
                                                 ],
@@ -183,13 +176,15 @@ class _StudentDataScreenState extends State<StudentDataScreen> with AfterLayoutM
                                       ),
                                     ),
                                   )),
-                                  DataCell(Container(
-                                    width: size.width * 0.2, // Use MediaQuery to set width
-                                    child: Text(
-                                      complaint.category,
-                                      style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                                  DataCell(
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 1.0),
+                                      child: Text(
+                                        complaint.category,
+                                        style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+                                      ),
                                     ),
-                                  )),
+                                  ),
                                 ]),
                               )
                               .toList()
