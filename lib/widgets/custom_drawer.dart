@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:just_complaint/constant/constan.dart';
 import 'package:just_complaint/model/menu_items.dart';
 import 'package:just_complaint/provider/theme_provider.dart';
@@ -22,64 +23,99 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     bool isDarkMode = themeProvider.isDarkMode;
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
 
-    double maxTitleFontSize = 20.0;
-    double maxSubtitleFontSize = 15.0;
-    double maxMenuFontSize = 18.0;
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double screenWidth = constraints.maxWidth;
+        double screenHeight = constraints.maxHeight;
 
-    return Scaffold(
-      backgroundColor: isDarkMode ? kNavyBlueColor : Colors.indigo,
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(top: 30, bottom: 70, left: 10),
-          child: Column(
-            children: [
-              Row(
+        double maxTitleFontSize = 20.0;
+        double maxSubtitleFontSize = 15.0;
+        double maxMenuFontSize = 18.0;
+
+        return Scaffold(
+          backgroundColor: isDarkMode ? kNavyBlueColor : Colors.indigo,
+          body: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.only(top: screenHeight * 0.03, bottom: screenHeight * 0.07, left: screenWidth * 0.05),
+              child: Column(
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Row(
                     children: [
-                      SizedBox(height: screenHeight * 0.01),
-                      Text(
-                        'JUST COMPLAINT',
-                        style: TextStyle(
-                          color: isDarkMode ? Colors.white : Colors.white,
-                          fontSize: min(screenWidth * 0.05, maxTitleFontSize),
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(height: screenHeight * 0.01),
+                          RichText(
+                            text: TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'JUST ',
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.white, // Change to your desired color
+                                    fontSize: min(screenWidth * 0.09, maxTitleFontSize),
+                                    fontWeight: FontWeight.w900, // Set numeric bold value
+                                    shadows: [
+                                      Shadow(
+                                        offset: Offset(1.5, 1.5),
+                                        blurRadius: 2.0,
+                                        color: Colors.black,
+                                      ),
+                                      Shadow(
+                                        offset: Offset(-1.5, -1.5),
+                                        blurRadius: 2.0,
+                                        color: Colors.black54,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'COMPLAINT',
+                                  style: GoogleFonts.roboto(
+                                    color: Colors.green, // Change to your desired color
+                                    fontSize: min(screenWidth * 0.09, maxTitleFontSize),
+                                    fontWeight: FontWeight.w900, // Set numeric bold value
+                                    shadows: [
+                                      Shadow(
+                                        offset: Offset(1.5, 10.5),
+                                        blurRadius: 2.0,
+                                        color: Colors.black54,
+                                      ),
+                                      Shadow(
+                                        offset: Offset(-1.5, -1.5),
+                                        blurRadius: 2.0,
+                                        color: Colors.black54,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: screenHeight * 0.005),
-                      // Text(
-                      //   'Jamhuriya Complaints',
-                      //   style: TextStyle(
-                      //     fontSize: min(screenWidth * 0.03, maxSubtitleFontSize),
-                      //     color: isDarkMode ? Colors.white70 : Colors.white70,
-                      //   ),
-                      // ),
                     ],
                   ),
+                  Spacer(),
+                  ...MenuItems.all.map((item) {
+                    return Consumer<UserProvider>(
+                      builder: (context, userProvider, child) {
+                        if (item == MenuItems.responseScreen) {
+                          return buildMenuItemWithBadge(context, item, screenWidth, isDarkMode, userProvider.newResponsesCount);
+                        } else {
+                          return buildMenuItem(context, item, screenWidth, isDarkMode);
+                        }
+                      },
+                    );
+                  }).toList(),
+                  Spacer(flex: 2),
                 ],
               ),
-              Spacer(),
-              ...MenuItems.all.map((item) {
-                return Consumer<UserProvider>(
-                  builder: (context, userProvider, child) {
-                    if (item == MenuItems.responseScreen) {
-                      return buildMenuItemWithBadge(context, item, screenWidth, isDarkMode, userProvider.newResponsesCount);
-                    } else {
-                      return buildMenuItem(context, item, screenWidth, isDarkMode);
-                    }
-                  },
-                );
-              }).toList(),
-              Spacer(flex: 2),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -105,7 +141,7 @@ class CustomDrawer extends StatelessWidget {
           item.title,
           style: TextStyle(
             color: isDarkMode ? Colors.white : Colors.white,
-            fontSize: min(screenWidth * 0.04, maxMenuFontSize),
+            fontSize: min(screenWidth * 0.06, maxMenuFontSize),
           ),
         ),
         onTap: () {
@@ -131,7 +167,7 @@ class CustomDrawer extends StatelessWidget {
           item.title,
           style: TextStyle(
             color: isDarkMode ? Colors.white : Colors.white,
-            fontSize: min(screenWidth * 0.04, maxMenuFontSize),
+            fontSize: min(screenWidth * 0.06, maxMenuFontSize),
           ),
         ),
         onTap: () {
